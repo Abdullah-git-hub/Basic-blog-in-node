@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
+const Blog = require("./models/blog");
 
 const userRoute = require("./routes/user");
 const blogRoute = require("./routes/blog");
@@ -25,9 +26,11 @@ app.use(checkForAuthenticationCookie("token"));
 
 app.use("/blog", blogRoute);
 app.use("/user", userRoute);
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    const allBlogs = await Blog.find({}).sort({ createdAt: -1 });
     res.render("home", {
         user: req.user,
+        blogs: allBlogs,
     });
 });
 

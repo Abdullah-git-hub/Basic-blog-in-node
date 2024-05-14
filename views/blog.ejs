@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("./partials/head.ejs") %>
+        <title>Home | Blog</title>
+    </head>
+    <body>
+        <%- include("./partials/nav.ejs") %>
+
+        <div class="container mt-3">
+            <h1><%= blog.title %></h1>
+            <img src="<%= blog.coverImgURL %>" alt="" width="600px" />
+            <pre><%= blog.body %></pre>
+        </div>
+
+        <div class="container mt-3">
+            <img
+                src="<%= blog.createdBy.profileImageURL %>"
+                alt=""
+                width="50px"
+            />
+            <h5><%= blog.createdBy.fullName %></h5>
+        </div>
+
+        <div class="container mt-4">
+            <h3>Comments</h3>
+            <% if(locals.user) { %>
+            <form action="<%= `/blog/comment/` + blog._id %>" method="post">
+                <div class="mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="content"
+                        name="content"
+                        required
+                        placeholder="Comment"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <% } %>
+        </div>
+
+        <%- include("./partials/scripts.ejs") %>
+    </body>
+</html>
