@@ -26,10 +26,14 @@ router.get("/add-new", (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const blog = await Blog.findById(req.params.id).populate("createdBy");
-
+    const comments = await Comment.find({ blogID: req.params.id })
+        .sort({ createdAt: -1 })
+        .populate("createdBy");
+    // console.log("Comments:", comments);
     res.render("blog", {
         user: req.user,
         blog,
+        comments,
     });
 });
 
